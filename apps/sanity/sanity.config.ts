@@ -1,8 +1,9 @@
 import { defineConfig } from 'sanity'
+import { structure, singletonActions, singletonTypes } from './structure'
+import { schemaTypes } from './schema'
 import { structureTool } from 'sanity/structure'
 import { media } from 'sanity-plugin-media'
 import { visionTool } from '@sanity/vision'
-import { schemaTypes } from './schemaTypes'
 
 export default defineConfig({
   name: 'default',
@@ -12,12 +13,21 @@ export default defineConfig({
   dataset: 'production',
 
   plugins: [
-    structureTool(),
+    structureTool({ structure }),
     media(),
     visionTool(),
   ],
 
   schema: {
     types: schemaTypes,
+    templates: (templates) =>
+      templates.filter(({ schemaType }) => !singletonTypes.has(schemaType)),
+  },
+
+  document: {
+    actions: (input, context) =>
+      singletonTypes.has(context.schemaType)
+        ? input.filter(({ action }) => action && singletonActions.has(action))
+        : input,
   },
 })

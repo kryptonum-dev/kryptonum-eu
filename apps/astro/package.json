@@ -15,5 +15,11 @@
     "astro": "^4.15.0",
     "astro-portabletext": "^0.10.0",
     "typescript": "^5.5.4"
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "^8.3.0",
+    "eslint": "^9.9.1",
+    "eslint-plugin-astro": "^1.2.3",
+    "eslint-plugin-jsx-a11y": "^6.9.0"
   }
 }

@@ -1,5 +1,23 @@
 ---
+import sanityFetch from '@/utils/sanity.fetch';
+import { PortableText } from 'astro-portabletext';
+import type { PortableTextBlock } from '@portabletext/types';
 
+type QueryProps = {
+	question: PortableTextBlock;
+	answer: string;
+}[];
+
+const Faqs = await sanityFetch<QueryProps>({
+	query: `
+		*[_type == 'Faq_Collection'] {
+			...
+		}
+	`,
+	params: {},
+});
+
+console.log(Faqs);
 ---
 
 <html lang="en">
@@ -11,6 +29,6 @@
 		<title>Astro</title>
 	</head>
 	<body>
-		<h1>Astro</h1>
+		<PortableText value={Faqs[0].question} />
 	</body>
 </html>

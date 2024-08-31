@@ -1,5 +1,5 @@
 import { defineField, defineType } from "sanity";
-import { removeMarkdown } from "../../utils/remove-markdown";
+import { toPlainText } from "../../utils/to-plain-text";
 
 const title = 'Zbiór elementów FAQ';
 const icon = () => '❓';
@@ -12,13 +12,13 @@ export default defineType({
   fields: [
     defineField({
       name: 'question',
-      type: 'markdown',
+      type: 'Heading',
       title: 'Pytanie',
       validation: Rule => Rule.required(),
     }),
     defineField({
       name: 'answer',
-      type: 'markdown',
+      type: 'PortableText',
       title: 'Odpowiedź',
       validation: Rule => Rule.required(),
     }),
@@ -29,8 +29,8 @@ export default defineType({
       subtitle: 'answer',
     },
     prepare: ({ title, subtitle }) => ({
-      title: removeMarkdown(title),
-      subtitle: removeMarkdown(subtitle),
+      title: toPlainText(title),
+      subtitle: toPlainText(subtitle),
       icon,
     }),
   },

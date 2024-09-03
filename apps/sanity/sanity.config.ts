@@ -4,6 +4,7 @@ import { schemaTypes } from './schema'
 import { structureTool } from 'sanity/structure'
 import { media } from 'sanity-plugin-media'
 import { visionTool } from '@sanity/vision'
+import productionUrl from './productionUrl'
 
 export default defineConfig({
   name: 'default',
@@ -16,6 +17,7 @@ export default defineConfig({
     structureTool({ structure }),
     media(),
     visionTool(),
+    productionUrl(),
   ],
 
   schema: {

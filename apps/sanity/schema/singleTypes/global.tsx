@@ -21,25 +21,13 @@ export const global = defineType({
       name: 'socials',
       type: 'object',
       title: 'Social media',
-      options: { collapsible: true, collapsed: true },
+      options: { collapsible: true },
       fields: [
         defineField({
           name: 'instagram',
           type: 'url',
           title: 'Instagram',
-          validation: (Rule) => Rule.uri({ scheme: ['https'] }).error('Podaj prawidłowy adres URL (rozpoczynający się od https://)'),
-        }),
-        defineField({
-          name: 'pinterest',
-          type: 'url',
-          title: 'Pinterest',
-          validation: (Rule) => Rule.uri({ scheme: ['https'] }).error('Podaj prawidłowy adres URL (rozpoczynający się od https://)'),
-        }),
-        defineField({
-          name: 'tiktok',
-          type: 'url',
-          title: 'TikTok',
-          validation: (Rule) => Rule.uri({ scheme: ['https'] }).error('Podaj prawidłowy adres URL (rozpoczynający się od https://)'),
+          validation: Rule => Rule.uri({ scheme: ['https'] }).error('Podaj prawidłowy adres URL (rozpoczynający się od https://)'),
         }),
         defineField({
           name: 'facebook',
@@ -47,49 +35,68 @@ export const global = defineType({
           title: 'Facebook',
           validation: Rule => Rule.uri({ scheme: ['https'] }).error('Podaj prawidłowy adres URL (rozpoczynający się od https://)'),
         }),
+        defineField({
+          name: 'tiktok',
+          type: 'url',
+          title: 'TikTok',
+          validation: Rule => Rule.uri({ scheme: ['https'] }).error('Podaj prawidłowy adres URL (rozpoczynający się od https://)'),
+        }),
+        defineField({
+          name: 'linkedin',
+          type: 'url',
+          title: 'LinkedIn',
+          validation: Rule => Rule.uri({ scheme: ['https'] }).error('Podaj prawidłowy adres URL (rozpoczynający się od https://)'),
+        }),
       ],
     }),
     defineField({
       name: 'seo',
       type: 'object',
-      title: 'SEO',
+      title: 'Global SEO',
       fields: [
         defineField({
-          name: 'og_Img',
+          name: 'img',
           type: 'image',
-          title: 'OG Image',
-          description:
-            'Zdjęcie, które jest widoczne przy udostępnianiu strony w mediach społecznościowych. Wymiary zdjęcia powinny mieć 1200x630px',
+          title: 'Social Share Image',
+          description: 'Social Share Image is visible when sharing website on social media. The dimensions of the image should be 1200x630px. For maximum accessibility, use JPG or PNG formats, as WebP may not be supported everywhere.',
+          validation: Rule => Rule.required()
         }),
       ],
     }),
     defineField({
       name: 'OrganizationSchema',
       type: 'object',
-      title: 'Uporządkowane dane organizacji',
+      title: 'Organization structured data',
       description: (
-        <a
-          href="https://developers.google.com/search/docs/appearance/structured-data/organization?hl=pl"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Więcej informacji o Schema
-        </a>
+        <>
+          Learn more about{' '}
+          <a
+            href="https://developers.google.com/search/docs/appearance/structured-data/organization?hl=en"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Organization structured data
+          </a>
+        </>
       ),
+      options: { collapsible: true },
       fields: [
         defineField({
           name: 'name',
           type: 'string',
-          title: 'Nazwa Twojej organizacji',
+          title: 'Name',
+          description: 'Enter the name of your organization as you want it to appear in search results.',
+          validation: Rule => Rule.required(),
         }),
         defineField({
           name: 'description',
           type: 'text',
           rows: 3,
-          title: 'Opis Twojej organizacji',
+          title: 'Description',
+          description: 'A brief description of your organization that will appear in search results.',
+          validation: Rule => Rule.required(),
         }),
       ],
-      options: { collapsible: true, collapsed: true },
     }),
   ],
   preview: {

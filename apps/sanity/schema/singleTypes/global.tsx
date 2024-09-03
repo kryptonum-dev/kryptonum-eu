@@ -58,7 +58,7 @@ export const global = defineType({
           name: 'img',
           type: 'image',
           title: 'Social Share Image',
-          description: 'Social Share Image is visible when sharing website on social media. The dimensions of the image should be 1200x630px. For maximum accessibility, use JPG or PNG formats, as WebP may not be supported everywhere.',
+          description: 'Social Share Image is visible when sharing website on social media. The dimensions of the image should be 1200x630px. For maximum compatibility, use JPG or PNG formats, as WebP may not be supported everywhere.',
           validation: Rule => Rule.required()
         }),
       ],

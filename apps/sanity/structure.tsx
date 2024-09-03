@@ -29,10 +29,12 @@ export const createSingleton = (S: StructureBuilder, name: string) => {
         .title(title)
         .views([
           S.view.form().title('Editor').icon(() => '🖋️'),
-          S.view
-            .component(Preview)
-            .title('Preview')
-            .icon(() => '👀')
+          ...(!singletonTypes.has(name) ? [
+            S.view
+              .component(Preview)
+              .title('Preview')
+              .icon(() => '👀')
+          ] : []),
         ])
     )
 };

@@ -1,10 +1,10 @@
 import { defineConfig } from 'sanity'
 import { structure, singletonActions, singletonTypes } from './structure'
-import { schemaTypes } from './schema'
+import { schemaTypes } from './structure/schema-types'
 import { structureTool } from 'sanity/structure'
 import { media } from 'sanity-plugin-media'
 import { visionTool } from '@sanity/vision'
-import productionUrl from './productionUrl'
+import { showProductionUrl } from './utils/show-production-url'
 
 export default defineConfig({
   name: 'default',
@@ -17,7 +17,7 @@ export default defineConfig({
     structureTool({ structure }),
     media(),
     visionTool(),
-    productionUrl(),
+    showProductionUrl(),
   ],
 
   schema: {

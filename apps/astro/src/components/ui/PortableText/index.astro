@@ -1,0 +1,12 @@
+---
+import type { ComponentProps } from 'astro/types'
+import { PortableText } from 'astro-portabletext'
+
+export type PortableTextValue = ComponentProps<typeof PortableText>['value']
+
+type Props = ComponentProps<typeof PortableText>
+
+const { value, ...props } = Astro.props
+---
+
+<PortableText value={value} {...props} />

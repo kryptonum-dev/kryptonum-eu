@@ -1,0 +1,28 @@
+---
+import type { ComponentProps, HTMLAttributes } from 'astro/types'
+import { PortableText } from 'astro-portabletext'
+import Block from './Block.astro'
+
+export type PortableTextValue = ComponentProps<typeof PortableText>['value']
+
+type Props = {
+  level: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+  value: PortableTextValue
+} & HTMLAttributes<'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'>
+
+const { level: HeadingTag, value, ...props } = Astro.props
+---
+
+<HeadingTag {...props}>
+  {
+    (Array.isArray(value) ? value : [value]).map((block: PortableTextValue, index: number) =>
+      index > 0 ? (
+        <span {...props}>
+          <PortableText value={block} components={{ block: Block }} />
+        </span>
+      ) : (
+        <PortableText value={block} components={{ block: Block }} />
+      )
+    )
+  }
+</HeadingTag>

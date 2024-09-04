@@ -3,19 +3,19 @@ import { defineField, defineType } from 'sanity';
 export const global = defineType({
   name: 'global',
   type: 'document',
-  title: 'Globalne',
+  title: 'Global',
   icon: () => '🌍',
   fields: [
     defineField({
       name: 'email',
       type: 'string',
-      title: 'Adres e-mail',
+      title: 'Email',
       validation: Rule => Rule.required().email(),
     }),
     defineField({
       name: 'tel',
       type: 'string',
-      title: 'Numer telefonu (opcjonalnie)',
+      title: 'Phone number (optional)',
     }),
     defineField({
       name: 'socials',
@@ -27,25 +27,25 @@ export const global = defineType({
           name: 'instagram',
           type: 'url',
           title: 'Instagram',
-          validation: Rule => Rule.uri({ scheme: ['https'] }).error('Podaj prawidłowy adres URL (rozpoczynający się od https://)'),
+          validation: Rule => Rule.uri({ scheme: ['https'] }).error('Provide a valid URL (starting with https://)'),
         }),
         defineField({
           name: 'facebook',
           type: 'url',
           title: 'Facebook',
-          validation: Rule => Rule.uri({ scheme: ['https'] }).error('Podaj prawidłowy adres URL (rozpoczynający się od https://)'),
+          validation: Rule => Rule.uri({ scheme: ['https'] }).error('Provide a valid URL (starting with https://)'),
         }),
         defineField({
           name: 'tiktok',
           type: 'url',
           title: 'TikTok',
-          validation: Rule => Rule.uri({ scheme: ['https'] }).error('Podaj prawidłowy adres URL (rozpoczynający się od https://)'),
+          validation: Rule => Rule.uri({ scheme: ['https'] }).error('Provide a valid URL (starting with https://)'),
         }),
         defineField({
           name: 'linkedin',
           type: 'url',
           title: 'LinkedIn',
-          validation: Rule => Rule.uri({ scheme: ['https'] }).error('Podaj prawidłowy adres URL (rozpoczynający się od https://)'),
+          validation: Rule => Rule.uri({ scheme: ['https'] }).error('Provide a valid URL (starting with https://)'),
         }),
       ],
     }),
@@ -101,7 +101,7 @@ export const global = defineType({
   ],
   preview: {
     prepare: () => ({
-      title: 'Globalne ustawienia',
+      title: 'Global settings',
     })
   }
 })

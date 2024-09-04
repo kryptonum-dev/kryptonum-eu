@@ -1,20 +1,24 @@
 import type { StructureResolver, StructureBuilder } from 'sanity/structure'
 import { Iframe, type IframeProps } from 'sanity-plugin-iframe-pane'
-import { schemaTypes } from "./schema";
-import { PREVIEW_DEPLOYMENT_DOMAIN } from './global/constants';
+import { schemaTypes, singleTypes } from "./schema-types";
+import { PREVIEW_DEPLOYMENT_DOMAIN } from '../constants';
+import { slugList } from './slug-list';
 
 export const singletonActions = new Set(["publish", "discardChanges", "restore"]);
-export const singletonTypes = new Set(["global"]);
+export const singletonTypes = new Set(singleTypes.map(type => type.name as string));
 
-const Preview = ({ document }: IframeProps) => {
-  const slug = document?.draft?.slug as { current: string };
-  if (!slug?.current) return <div style={{ padding: '1rem' }}>🛑 Preview not available: The slug is missing</div>;
+const Preview = ({ document, documentId }: { document: IframeProps['document'], documentId: string }) => {
+  const slug = slugList[documentId as keyof typeof slugList];
+  if (!slug) return <div style={{ padding: '1rem' }}>🛑 Preview not available: The slug is missing</div>;
   return <Iframe
-    document={document} options={{
-      url: `${PREVIEW_DEPLOYMENT_DOMAIN}${slug.current}`,
+    document={document}
+    options={{
+      url: `${PREVIEW_DEPLOYMENT_DOMAIN}${slug}`,
       reload: { button: true }
     }} />
 }
+
+const typesToExcludePreview = ['global'];
 
 export const createSingleton = (S: StructureBuilder, name: string) => {
   const { title, icon } = schemaTypes.find(item => item.name === name) as { title: string, icon: React.ReactNode };
@@ -29,7 +33,7 @@ export const createSingleton = (S: StructureBuilder, name: string) => {
         .title(title)
         .views([
           S.view.form().title('Editor').icon(() => '🖋️'),
-          ...(!singletonTypes.has(name) ? [
+          ...(!typesToExcludePreview.includes(name) ? [
             S.view
               .component(Preview)
               .title('Preview')

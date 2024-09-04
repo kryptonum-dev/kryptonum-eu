@@ -9,7 +9,7 @@ export default defineType({
     defineField({
       name: 'title',
       type: 'string',
-      title: 'Tytuł',
+      title: 'Title',
       description: 'Title is visible in the browser tab and in search engines.',
       validation: Rule => [
         Rule.max(70).warning('The field should not be longer than 70 characters.'),
@@ -19,7 +19,7 @@ export default defineType({
     defineField({
       name: 'description',
       type: 'text',
-      title: 'Opis',
+      title: 'Description',
       rows: 4,
       description: 'Description is visible in search engines and when sharing the page on social media.',
       validation: Rule => [

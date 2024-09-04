@@ -1,17 +1,21 @@
 import { defineField, defineType } from "sanity"
+import { slugList } from "../../structure/slug-list";
+
+const name = 'Index_Page';
+const title = 'Homepage';
+const slug = slugList[name];
 
 export default defineType({
-  name: 'Index_Page',
+  name: name,
   type: 'document',
-  title: 'Strona główna',
+  title: title,
   icon: () => '🏠',
   fields: [
-    // defineField({
-    //   name: 'content',
-    //   type: 'content',
-    //   title: 'Komponenty podstrony',
-    //   options: { collapsible: true },
-    // }),
+    defineField({
+      name: 'components',
+      type: 'components',
+      title: 'Page Components',
+    }),
     defineField({
       name: 'seo',
       type: 'seo',
@@ -25,4 +29,10 @@ export default defineType({
       title: 'SEO',
     },
   ],
+  preview: {
+    prepare: () => ({
+      title: title,
+      subtitle: slug
+    })
+  }
 });

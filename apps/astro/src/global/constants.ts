@@ -46,7 +46,7 @@ export const DEFAULT_TITLE: string = "Kryptonum";
  * @constant
  * @type {string}
  */
-export const DEFAULT_DESCRIPTION: string = "Kryptonum tworzymy nieszablonowe projekty tym, którym zależy na: 👨🏻‍💻 profesjonalnej stronie, 🎨 unikatowym brandingu, 💰 dochodowym biznesie online.";
+export const DEFAULT_DESCRIPTION: string = "Kryptonum tworzy nieszablonowe projekty tym, którym zależy na: 👨🏻‍💻 profesjonalnej stronie, 🎨 unikatowym brandingu, 💰 dochodowym biznesie online.";
 
 /**
  * Object containing regular expressions for validation purposes.

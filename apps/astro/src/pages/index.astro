@@ -1,34 +1,52 @@
 ---
 import sanityFetch from '@/utils/sanity.fetch';
-import { PortableText } from 'astro-portabletext';
-import type { PortableTextBlock } from '@portabletext/types';
+import Layout from '@/src/layouts/Layout.astro';
+import PortableText, { type PortableTextValue } from '@/components/ui/PortableText/index.astro';
+import Heading from '@/components/ui/PortableText/Heading.astro';
 
 type QueryProps = {
-	question: PortableTextBlock;
-	answer: string;
-}[];
+  page: {
+    seo: {
+      title: string;
+      description: string;
+    };
+  };
+  faqs: {
+    question: PortableTextValue;
+    answer: PortableTextValue;
+  };
+};
 
-const Faqs = await sanityFetch<QueryProps>({
-	query: `
-		*[_type == 'Faq_Collection'] {
-			...
+const data = await sanityFetch<QueryProps>({
+  query: `
+		{
+			"page": *[_type == 'Index_Page'][0] {
+				seo {
+					title,
+					description,
+				},
+			},
+			"faqs": *[_type == 'Faq_Collection'][0] {
+				question,
+				answer,
+			}
 		}
 	`,
-	params: {},
 });
-
-console.log(Faqs);
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<PortableText value={Faqs[0].question} />
-	</body>
-</html>
+<Layout path="/" title={data.page.seo.title} description={data.page.seo.description}>
+  <Heading level="h1" value={data.faqs.question} />
+  <div class="paragraph">
+    <PortableText value={data.faqs.answer} />
+  </div>
+</Layout>
+
+<style lang="scss">
+  .paragraph {
+    color: #f90;
+    :global(ul) {
+      color: #f00;
+    }
+  }
+</style>

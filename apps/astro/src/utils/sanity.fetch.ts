@@ -1,7 +1,7 @@
 import { createClient, type QueryParams } from '@sanity/client'
-import { isPreviewDeployment } from '@/utils/is-preview-deployment';
+import { isPreviewDeployment } from '../utils/is-preview-deployment';
 
-const TOKEN = import.meta.env.SANITY_API_TOKEN;
+const TOKEN = import.meta.env.SANITY_API_TOKEN || process.env.SANITY_API_TOKEN;
 
 if (isPreviewDeployment && !TOKEN) {
   throw new Error("The `SANITY_API_TOKEN` environment variable is required.");

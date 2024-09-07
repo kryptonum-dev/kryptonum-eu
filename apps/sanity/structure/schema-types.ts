@@ -8,12 +8,24 @@ import Heading from '../schema/ui/PortableText/Heading';
 import Components from '../schema/ui/Components';
 
 // Single Types
-import { global } from '../schema/singleTypes/global';
+import global from '../schema/singleTypes/global';
+import redirects from '../schema/singleTypes/redirects';
 import Index_Page from '../schema/singleTypes/Index_Page';
 
 // Collections Types
 import Faq_Collection from '../schema/collectionTypes/Faq_Collection';
 
+export const singleTypes = [
+  global,
+  redirects,
+  Index_Page,
+];
+const collectionTypes = [
+  Faq_Collection,
+];
+const components = [
+  Components,
+];
 const ui = [
   cta,
   seo,
@@ -21,17 +33,4 @@ const ui = [
   Heading,
 ];
 
-const components = [
-  Components,
-];
-
-const collectionTypes = [
-  Faq_Collection,
-];
-
-export const singleTypes = [
-  global,
-  Index_Page,
-];
-
-export const schemaTypes = [...ui, ...components, ...collectionTypes, ...singleTypes];
+export const schemaTypes = [...singleTypes, ...collectionTypes, ...components, ...ui];

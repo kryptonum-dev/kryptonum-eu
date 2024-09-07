@@ -18,7 +18,7 @@ const Preview = ({ document, documentId }: { document: IframeProps['document'], 
     }} />
 }
 
-const typesToExcludePreview = ['global'];
+const typesToExcludePreview = ['global', 'redirects'];
 
 export const createSingleton = (S: StructureBuilder, name: string) => {
   const { title, icon } = schemaTypes.find(item => item.name === name) as { title: string, icon: React.ReactNode };
@@ -49,6 +49,7 @@ export const structure: StructureResolver = (S) =>
     .title('Zawartość')
     .items([
       createSingleton(S, "global"),
+      createSingleton(S, "redirects"),
       S.divider(),
       createSingleton(S, "Index_Page"),
       S.divider(),

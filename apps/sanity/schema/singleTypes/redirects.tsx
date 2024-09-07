@@ -1,5 +1,11 @@
-import { defineField, defineType } from 'sanity';
+import { defineField, defineType, type SlugRule } from 'sanity';
 import { Box, Text, Tooltip } from '@sanity/ui';
+
+const SlugValidation = (Rule: SlugRule) => Rule.custom((value) => {
+  if (!value || !value.current) return "The value can't be blank";
+  if (!value.current.startsWith("/")) return "The path must be a relative path (starts with /)";
+  return true;
+});
 
 export default defineType({
   name: 'redirects',
@@ -20,32 +26,12 @@ export default defineType({
             defineField({
               name: 'source',
               type: 'slug',
-              validation: Rule => Rule.required().custom(value => {
-                if (!value || !value.current) return "The value can't be blank";
-                if (!value.current.startsWith("/")) {
-                  return "The path must start with a /";
-                }
-                return true;
-              })
+              validation: SlugValidation
             }),
             defineField({
               name: 'destination',
               type: 'slug',
-              validation: Rule => Rule.required().custom((value) => {
-                if (!value || !value.current) return "The value can't be blank";
-                if (value.current.startsWith("/")) {
-                  return true;
-                }
-                if (value.current.startsWith("https://")) {
-                  try {
-                    new URL(value.current);
-                    return true;
-                  } catch (error) {
-                    return "Invalid URL format";
-                  }
-                }
-                return "The path must be a relative path (starts with /) or a valid external URL (starts with https://)";
-              })
+              validation: SlugValidation
             }),
             defineField({
               name: 'isPermanent',

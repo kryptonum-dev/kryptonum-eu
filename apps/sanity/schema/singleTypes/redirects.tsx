@@ -11,6 +11,7 @@ export default defineType({
     defineField({
       name: 'redirects',
       type: 'array',
+      description: 'Redirects are used to redirect users to a different page. This is useful for SEO purposes. Remember about good practices for redirects as they can affect SEO.',
       of: [
         defineField({
           name: 'redirect',

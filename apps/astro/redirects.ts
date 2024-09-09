@@ -26,8 +26,10 @@ if (!isPreviewDeployment) {
       }
     ])
   );
+  console.log(redirects);
 } else {
-  console.warn("🔀 Redirects are disabled in preview deployments");
+  console.warn('\x1b[33m%s\x1b[0m', "🔀 Redirects are disabled in preview deployments");
+
 }
 
 export default redirects;

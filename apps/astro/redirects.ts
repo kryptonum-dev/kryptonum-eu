@@ -7,13 +7,11 @@ type RedirectData = {
   isPermanent: boolean;
 };
 
-const redirects = isPreviewDeployment ? {} : await fetchRedirects();
+let redirects = {};
 
 if (isPreviewDeployment) {
-  console.warn('\x1b[33m%s\x1b[0m', "🔀 Redirects are disabled in preview deployments");
-}
-
-async function fetchRedirects() {
+  console.log('\x1b[33m%s\x1b[0m', "🔀 Redirects are disabled in preview deployments");
+} else {
   const { default: sanityFetch } = await import("./src/utils/sanity.fetch");
   const data = await sanityFetch<RedirectData[]>({
     query: `
@@ -24,7 +22,7 @@ async function fetchRedirects() {
       }[]
     `
   });
-  return Object.fromEntries(
+  redirects = Object.fromEntries(
     data.map(({ source, destination, isPermanent }) => [
       source, {
         status: (isPermanent ? 301 : 302) as ValidRedirectStatus,
@@ -32,6 +30,8 @@ async function fetchRedirects() {
       }
     ])
   );
+  console.log('\x1b[32m%s\x1b[0m', `✅ \x1b[1m${Object.keys(redirects).length}\x1b[22m redirects added from Sanity`);
 }
+
 
 export default redirects;

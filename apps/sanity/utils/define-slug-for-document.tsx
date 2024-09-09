@@ -2,7 +2,7 @@ import { defineField } from "sanity";
 import { slugify } from "./slugify";
 import { isUniqueSlug } from "./is-unique-slug";
 
-export const defineSlugForDocument = ({ prefix, slug }: { prefix?: string, slug?: string }) => [
+export const defineSlugForDocument = ({ prefix = '', slug }: { prefix?: string, slug?: string }) => [
   defineField({
     name: 'title',
     type: 'string',
@@ -26,7 +26,7 @@ export const defineSlugForDocument = ({ prefix, slug }: { prefix?: string, slug?
     },
     options: {
       source: 'title',
-      slugify: slugify,
+      slugify: (slug: string) => `${prefix || '/'}${slugify(slug)}`,
       isUnique: isUniqueSlug,
     },
     validation: (Rule) =>

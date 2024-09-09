@@ -1,6 +1,13 @@
 import { defineField, defineType, type SlugRule } from 'sanity';
 import { Box, Text, Tooltip } from '@sanity/ui';
 
+type RedirectTypes = {
+  _key: string;
+  source: { current: string };
+  destination: { current: string };
+  isPermanent: boolean;
+}
+
 const SlugValidation = (Rule: SlugRule) => Rule.custom((value) => {
   if (!value || !value.current) return "The value can't be blank";
   if (!value.current.startsWith("/")) return "The path must be a relative path (starts with /)";
@@ -26,12 +33,23 @@ export default defineType({
             defineField({
               name: 'source',
               type: 'slug',
-              validation: SlugValidation
+              validation: Rule => [
+                SlugValidation(Rule),
+                Rule.custom((value, context) => {
+                  const redirects = (context.document?.redirects || []) as RedirectTypes[];
+                  const currentRedirect = context.parent as RedirectTypes
+                  const isDuplicate = redirects.some(redirect =>
+                    redirect._key !== currentRedirect._key && redirect.source?.current === value?.current
+                  );
+                  if (isDuplicate) return "This source path is already used in another redirect. Source paths must be unique.";
+                  return true;
+                })
+              ]
             }),
             defineField({
               name: 'destination',
               type: 'slug',
-              validation: SlugValidation
+              validation: SlugValidation,
             }),
             defineField({
               name: 'isPermanent',
@@ -68,7 +86,7 @@ export default defineType({
             }
           },
         })
-      ]
+      ],
     })
   ],
   preview: {

@@ -1,35 +1,39 @@
-const charMap = new Map([
-  ['[ÀÁÂÃÄÅÆĀĂĄẠẢẤẦẨẪẬẮẰẲẴẶἀ]', 'a'],
-  ['[ÇĆĈČ]', 'c'],
-  ['[ÐĎĐÞ]', 'd'],
-  ['[ÈÉÊËĒĔĖĘĚẸẺẼẾỀỂỄỆ]', 'e'],
-  ['[ĜĞĢǴ]', 'g'],
-  ['[ĤḦ]', 'h'],
-  ['[ÌÍÎÏĨĪĮİỈỊ]', 'i'],
-  ['[Ĵ]', 'j'],
-  ['[Ĳ]', 'ij'],
-  ['[Ķ]', 'k'],
-  ['[ĹĻĽŁ]', 'l'],
-  ['[Ḿ]', 'm'],
-  ['[ÑŃŅŇ]', 'n'],
-  ['[ÒÓÔÕÖØŌŎŐỌỎỐỒỔỖỘỚỜỞỠỢǪǬƠ]', 'o'],
-  ['[Œ]', 'oe'],
-  ['[ṕ]', 'p'],
-  ['[ŔŖŘ]', 'r'],
-  ['[ßŚŜŞŠȘ]', 's'],
-  ['[ŢŤ]', 't'],
-  ['[ÙÚÛÜŨŪŬŮŰŲỤỦỨỪỬỮỰƯ]', 'u'],
-  ['[ẂŴẀẄ]', 'w'],
-  ['[ẍ]', 'x'],
-  ['[ÝŶŸỲỴỶỸ]', 'y'],
-  ['[ŹŻŽ]', 'z'],
-  ["[·/_,:;']", '-'],
-]);
-
-const regexPattern = new RegExp(Array.from(charMap.keys()).join('|'), 'gi');
-
-export const slugify = (text: string): string => {
-  const normalizedText = text.toLowerCase().trim();
-  const replacedText = normalizedText.replace(regexPattern, match => charMap.get(match) || '');
-  return replacedText.replace(/[^a-z0-9-]+/g, '-').replace(/^-+|-+$/g, '');
+export const slugify = (slug: string) => {
+  slug = slug.toString().toLowerCase().trim();
+  const sets = [
+    { to: 'a', from: '[ÀÁÂÃÄÅÆĀĂĄẠẢẤẦẨẪẬẮẰẲẴẶἀ]' },
+    { to: 'c', from: '[ÇĆĈČ]' },
+    { to: 'd', from: '[ÐĎĐÞ]' },
+    { to: 'e', from: '[ÈÉÊËĒĔĖĘĚẸẺẼẾỀỂỄỆ]' },
+    { to: 'g', from: '[ĜĞĢǴ]' },
+    { to: 'h', from: '[ĤḦ]' },
+    { to: 'i', from: '[ÌÍÎÏĨĪĮİỈỊ]' },
+    { to: 'j', from: '[Ĵ]' },
+    { to: 'ij', from: '[Ĳ]' },
+    { to: 'k', from: '[Ķ]' },
+    { to: 'l', from: '[ĹĻĽŁ]' },
+    { to: 'm', from: '[Ḿ]' },
+    { to: 'n', from: '[ÑŃŅŇ]' },
+    { to: 'o', from: '[ÒÓÔÕÖØŌŎŐỌỎỐỒỔỖỘỚỜỞỠỢǪǬƠ]' },
+    { to: 'oe', from: '[Œ]' },
+    { to: 'p', from: '[ṕ]' },
+    { to: 'r', from: '[ŔŖŘ]' },
+    { to: 's', from: '[ßŚŜŞŠȘ]' },
+    { to: 't', from: '[ŢŤ]' },
+    { to: 'u', from: '[ÙÚÛÜŨŪŬŮŰŲỤỦỨỪỬỮỰƯ]' },
+    { to: 'w', from: '[ẂŴẀẄ]' },
+    { to: 'x', from: '[ẍ]' },
+    { to: 'y', from: '[ÝŶŸỲỴỶỸ]' },
+    { to: 'z', from: '[ŹŻŽ]' },
+    { to: '-', from: "[·/_,:;']" },
+  ];
+  sets.forEach(({ from, to }) => {
+    slug = slug.replace(new RegExp(from, 'gi'), to);
+  });
+  return slug
+    .replace(/\s+/g, '-')
+    .replace(/[^-\w]+/g, '')
+    .replace(/--+/g, '-')
+    .replace(/^-+/, '')
+    .replace(/-+$/, '');
 };

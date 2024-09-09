@@ -1,14 +1,21 @@
 import type { ValidRedirectStatus } from "astro";
 import { isPreviewDeployment } from "./src/utils/is-preview-deployment";
 
-let redirects = {};
-if (!isPreviewDeployment) {
-  const sanityFetch = await import("./src/utils/sanity.fetch");
-  const data = await sanityFetch.default<{
-    source: string;
-    destination: string;
-    isPermanent: boolean;
-  }[]>({
+type RedirectData = {
+  source: string;
+  destination: string;
+  isPermanent: boolean;
+};
+
+const redirects = isPreviewDeployment ? {} : await fetchRedirects();
+
+if (isPreviewDeployment) {
+  console.warn('\x1b[33m%s\x1b[0m', "🔀 Redirects are disabled in preview deployments");
+}
+
+async function fetchRedirects() {
+  const { default: sanityFetch } = await import("./src/utils/sanity.fetch");
+  const data = await sanityFetch<RedirectData[]>({
     query: `
       *[_type == "redirects"][0].redirects {
         "source": source.current,
@@ -17,19 +24,14 @@ if (!isPreviewDeployment) {
       }[]
     `
   });
-  redirects = Object.fromEntries(
+  return Object.fromEntries(
     data.map(({ source, destination, isPermanent }) => [
-      source,
-      {
+      source, {
         status: (isPermanent ? 301 : 302) as ValidRedirectStatus,
-        destination: destination
+        destination
       }
     ])
   );
-  console.log(redirects);
-} else {
-  console.warn('\x1b[33m%s\x1b[0m', "🔀 Redirects are disabled in preview deployments");
-
 }
 
 export default redirects;

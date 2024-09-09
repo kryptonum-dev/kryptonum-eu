@@ -1,9 +1,9 @@
 import { defineField, defineType } from "sanity"
-import { slugList } from "../../structure/slug-list";
+import { defineSlugForDocument } from "../../utils/define-slug-for-document";
 
 const name = 'Index_Page';
 const title = 'Homepage';
-const slug = slugList[name];
+const slug = '/';
 
 export default defineType({
   name: name,
@@ -11,6 +11,7 @@ export default defineType({
   title: title,
   icon: () => '🏠',
   fields: [
+    ...defineSlugForDocument({ slug: slug }),
     defineField({
       name: 'components',
       type: 'components',

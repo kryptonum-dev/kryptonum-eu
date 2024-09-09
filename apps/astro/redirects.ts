@@ -30,8 +30,13 @@ if (isPreviewDeployment) {
       }
     ])
   );
-  console.log('\x1b[32m%s\x1b[0m', `✅ \x1b[1m${Object.keys(redirects).length}\x1b[22m redirects added from Sanity`);
-}
 
+  const permanentRedirects = data.filter(r => r.isPermanent).length;
+  const temporaryRedirects = data.length - permanentRedirects;
+  console.log(
+    '\x1b[32m%s\x1b[0m',
+    `✅ \x1b[1m${Object.keys(redirects).length}\x1b[0m\x1b[32m redirects added from Sanity (\x1b[1m${permanentRedirects}\x1b[0m\x1b[32m permanent and \x1b[1m${temporaryRedirects}\x1b[0m\x1b[32m temporary)`
+  );
+}
 
 export default redirects;

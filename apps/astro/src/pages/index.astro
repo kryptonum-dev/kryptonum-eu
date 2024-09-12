@@ -1,52 +1,10 @@
 ---
-import sanityFetch from '@/utils/sanity.fetch';
-import Layout from '@/src/layouts/Layout.astro';
-import PortableText, { type PortableTextValue } from '@/components/ui/PortableText/index.astro';
-import Heading from '@/components/ui/PortableText/Heading.astro';
+import Layout from '@/src/layouts/Layout.astro'
+import metadataFetch from '../utils/metadata.fetch'
 
-type QueryProps = {
-  page: {
-    seo: {
-      title: string;
-      description: string;
-    };
-  };
-  faqs: {
-    question: PortableTextValue;
-    answer: PortableTextValue;
-  };
-};
-
-const data = await sanityFetch<QueryProps>({
-  query: `
-		{
-			"page": *[_type == 'Index_Page'][0] {
-				seo {
-					title,
-					description,
-				},
-			},
-			"faqs": *[_type == 'Faq_Collection'][0] {
-				question,
-				answer,
-			}
-		}
-	`,
-});
+const metadata = await metadataFetch('Index_Page')
 ---
 
-<Layout path="/" title={data.page.seo.title} description={data.page.seo.description}>
-  <Heading level="h1" value={data.faqs.question} />
-  <div class="paragraph">
-    <PortableText value={data.faqs.answer} />
-  </div>
+<Layout {...metadata}>
+  <h1>Index Page</h1>
 </Layout>
-
-<style lang="scss">
-  .paragraph {
-    color: #f90;
-    :global(ul) {
-      color: #f00;
-    }
-  }
-</style>

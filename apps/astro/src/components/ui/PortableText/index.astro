@@ -1,12 +1,26 @@
 ---
-import type { ComponentProps } from 'astro/types'
-import { PortableText } from 'astro-portabletext'
+import type { HTMLAttributes } from 'astro/types'
+import type { PortableTextValue } from '.'
+import Cmp from './Cmp.astro'
 
-export type PortableTextValue = ComponentProps<typeof PortableText>['value']
+type Props = {
+  value: PortableTextValue
+  heading?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
+} & HTMLAttributes<'div' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'>
 
-type Props = ComponentProps<typeof PortableText>
+const { heading: HeadingTag, value, ...props } = Astro.props
 
-const { value, ...props } = Astro.props
+const valueArray = Array.isArray(value) ? value : [value]
 ---
 
-<PortableText value={value} {...props} />
+{
+  HeadingTag ? (
+    <HeadingTag {...props}>
+      {valueArray.map((value: PortableTextValue, index: number) =>
+        index > 0 ? <span {...props}>{<Cmp value={value} />}</span> : <Cmp value={value} />
+      )}
+    </HeadingTag>
+  ) : (
+    <Cmp value={value} />
+  )
+}

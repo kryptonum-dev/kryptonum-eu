@@ -1,0 +1,14 @@
+---
+import { PortableText } from 'astro-portabletext'
+import type { PortableTextValue } from '.'
+import Block from './Block.astro'
+import Mark from './Mark.astro'
+
+type Props = {
+  value: PortableTextValue
+}
+
+const { value } = Astro.props
+---
+
+<PortableText value={value} components={{ block: Block, mark: Mark }} />

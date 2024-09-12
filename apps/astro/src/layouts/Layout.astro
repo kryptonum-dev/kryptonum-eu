@@ -1,10 +1,9 @@
 ---
-import type { ComponentProps } from "astro/types";
-import "@/global/global.scss";
-import { LOCALE } from "../global/constants";
-import Head from "./Head.astro";
+import '@/global/global.scss'
+import { LOCALE } from '../global/constants'
+import Head, { type Props as HeadProps } from './Head.astro'
 
-type Props = ComponentProps<typeof Head>;
+type Props = HeadProps
 ---
 
 <!doctype html>
@@ -13,7 +12,7 @@ type Props = ComponentProps<typeof Head>;
     <Head {...Astro.props} />
   </head>
   <body>
-    <main id='main'>
+    <main id="main">
       <slot />
     </main>
   </body>

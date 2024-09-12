@@ -1,7 +1,5 @@
-import type { PortableTextProps } from 'astro-portabletext/types';
+export { default, type PortableTextValue } from './index.astro';
 
-export { default } from './index.astro';
-export type PortableTextValue = PortableTextProps['value']
 export const PortableTextQuery = (name: string) => `
   ${name}[] {
     ...,

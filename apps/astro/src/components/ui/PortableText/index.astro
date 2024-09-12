@@ -1,7 +1,9 @@
 ---
 import type { HTMLAttributes } from 'astro/types'
-import type { PortableTextValue } from '.'
+import type { PortableTextProps } from 'astro-portabletext/types'
 import Cmp from './Cmp.astro'
+
+export type PortableTextValue = PortableTextProps['value']
 
 type Props = {
   value: PortableTextValue

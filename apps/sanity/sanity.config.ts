@@ -1,6 +1,6 @@
 import { defineConfig } from 'sanity'
-import { structure, singletonActions, singletonTypes } from './structure'
-import { schemaTypes } from './structure/schema-types'
+import { structure } from './structure'
+import { schemaTypes, singletonActions, singletonTypes } from './structure/schema-types'
 import { structureTool } from 'sanity/structure'
 import { media } from 'sanity-plugin-media'
 import { visionTool } from '@sanity/vision'

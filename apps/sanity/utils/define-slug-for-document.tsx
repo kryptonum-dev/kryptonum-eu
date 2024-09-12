@@ -8,6 +8,7 @@ export const defineSlugForDocument = ({ prefix = '', slug }: { prefix?: string, 
     type: 'string',
     title: 'Title',
     description: 'The title of the document, used for display in the Breadcrumbs.',
+    validation: Rule => Rule.required(),
   }),
   defineField({
     name: 'slug',
